@@ -1,0 +1,22 @@
+name: 'Tweet Screenshot Bot'
+on: [push]
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ls -l
+      - uses: snow-actions/tweet@v1.1.1
+        env:
+          CONSUMER_API_KEY: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
+          CONSUMER_API_SECRET_KEY: ${{ secrets.TWITTER_CONSUMER_API_SECRET_KEY }}
+          ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        with:
+          status: |
+            Hot @huggingface Spaces of the day https://huggingface.co/spaces?sort=modified
+          media_paths: |
+            shot.png
+
+      - run: echo ${{ steps.tweet.outputs.response }}
